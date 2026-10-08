@@ -1,0 +1,24 @@
+<?php
+$meat = "チキン南蛮香味だれ";
+$fish = "鯖の竜田揚げ";
+?>
+
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>本日のランチ</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+
+<body>
+  <div class="main-contents">
+    本日のランチ、肉料理は、
+    <h1><?php echo $meat; ?></h1>
+    魚料理は、
+    <h1><?php echo $fish; ?></h1>
+    です。<br>
+  </div>
+</body>
+</html>
