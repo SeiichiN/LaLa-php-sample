@@ -71,6 +71,7 @@
     }
     ?>
     <form method="post" action="discountForm.php">
+      <input type="hidden" name="kosu" value="<?php echo $kosu; ?>">
       <ul>
         <li><input type="submit" value="戻る"></li>
       </ul>
