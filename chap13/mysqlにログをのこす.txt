@@ -1,0 +1,10 @@
+MariaDB [(none)]> set global general_log_file = "/var/log/mysql/mysql.log";
+
+MariaDB [(none)]> set global general_log_file = "C:\xampp\mysql\log\mysql.log";
+
+MariaDB [(none)]> set global general_log = 1;
+
+あと、忘れずに set global general_log = 0; としておくこと
+
+
+;; 修正時刻: Tue 2026/10/27 17:51:40

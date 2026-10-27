@@ -1,0 +1,93 @@
+<?php
+require_once('../../lib/util.php');
+$gobackURL = "insertForm.html";
+
+if (!cken($_POST)) {
+  header("Location: {$gobackURL}");
+  exit();
+}
+
+$errors = [];
+$name = $age = $sex = "";
+if (isset($_POST['name'])) {
+  $name = trim($_POST['name']);
+  if ($name === "") {
+    $errors[] = "名前が未入力です";
+  }
+} else {
+  $errors[] = "名前が送信されていません";
+}
+
+if (isset($_POST['age'])) {
+  $age = $_POST['age'];
+  if (!ctype_digit($age)) {
+    $errors[] = "年齢には数値を入力してください";
+  }
+} else {
+  $errors[] = "年齢が送信されていません";
+}
+
+if (isset($_POST['sex'])) {
+  $sex = $_POST['sex'];
+  if (!in_array($sex, ["男", "女"])) {
+    $errors[] = "性別が正しくありません";
+  }
+} else {
+  $errors[] = "性別が送信されていません";
+}
+
+if (count($errors) > 0) {
+  echo '<ol class="error">';
+  foreach ($errors as $error) {
+    echo '<li>', $error, '</li>';
+  }
+  echo '</ol>';
+  echo '<hr>';
+  echo '<a href="', $gobackURL, '">戻る</a>';
+  exit();
+}
+
+$user = "testuser";
+$pass = "testuser";
+$dbName = "testdb";
+$host = "localhost:3306";
+$dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
+?>
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title></title>
+    <link rel="stylesheet" href="../../css/style.css"/>
+    <link rel="stylesheet" href="../../css/tablestyle.css"/>
+  </head>
+  <body>
+    <div>
+      <?php
+      try {
+        $pdo = new PDO($dsn, $user, $pass);
+        $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARE, false);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = <<< EOD
+          INSERT INTO member (name, age, sex)
+          VALUES (:name, :age, :sex)
+          EOD;
+        $stm = $pdo->prepare($sql);
+        $stm->bindValue(':name', $name, PDO::PARAM_STR);
+        $stm->bindValue(':age', $age, PDO::PARAM_INT);
+        $stm->bindValue(';sex', $sex, PDO::PARAM_STR);
+        $result = $stm->execute();
+        var_dump($result);
+      } catch (Exception $e) {
+        echo '<span class="error">エラーがありました</a>';
+        echo $e->getMessage();
+      }
+      ?>
+      <hr/>
+      <p><a href="<?php echo gobackURL; ?>">もどる</a></p>
+    </div>
+  </body>
+</html>
+
+;; 修正時刻: Tue 2026/10/27 17:51:40
