@@ -8,11 +8,16 @@ if (!cken($_POST)) {
 }
 # $_POST = es($_POST) はここではやらない
 
+/*
 if (empty($_POST)) {  # フォームから来ない場合
   header("Location:{$gobackURL}");  # リダイレクト
   exit();  # リダイレクトの後は必ずexit()
-} else if (!isset($_POST['name']) || (trim($_POST['name']) === "")) {
-  header("Location:{$gobackURL}");  # リダイレクト
+} else
+*/
+if (!isset($_POST['name']) || (trim($_POST['name']) === "")) {
+  echo "nameが空です";
+  echo "<a href=\"{$gobackURL}\">もどる</a>";
+  // header("Location:{$gobackURL}");  # リダイレクト
   exit();  # リダイレクトの後は必ずexit()
 }
 
